@@ -1,0 +1,97 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "enter_gate",
+					"strict" : false
+				},
+				{
+					"name" : "exit_gate",
+					"strict" : false
+				},
+				{
+					"name" : "Hex1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex1[4]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex1[5]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex2[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex2[1]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex2[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex2[3]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex2[4]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex2[5]",
+					"strict" : false
+				},
+				{
+					"name" : "Hex2[6]",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "exit_button",
+					"strict" : false
+				},
+				{
+					"name" : "exit_sensor",
+					"strict" : false
+				},
+				{
+					"name" : "reset",
+					"strict" : false
+				},
+				{
+					"name" : "enter_button",
+					"strict" : false
+				},
+				{
+					"name" : "enter_sensor",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

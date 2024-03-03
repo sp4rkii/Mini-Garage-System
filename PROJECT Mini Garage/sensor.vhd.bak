@@ -1,0 +1,76 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity sensor is
+    Port ( clk : in STD_LOGIC;
+           ir_sensor : in STD_LOGIC;
+           ir_sensor2: in STD_LOGIC;
+           reset : in STD_LOGIC;
+           Hex1 : out STD_LOGIC_VECTOR(7 downto 0);
+           Hex2:out STD_LOGIC_VECTOR(7 downto 0));
+end sensor;
+
+architecture Behavioral of sensor is
+    signal counter_value : STD_LOGIC_VECTOR(7 downto 0) := "00000000";
+     signal sum:STD_LOGIC_VECTOR(7 downto 0);
+      signal clk_counter : unsigned(9 downto 0) := (others => '0');
+      constant target_count : unsigned(9 downto 0) := "1000000000";
+      signal flag:std_logic:='0';
+		signal flag2:std_logic:='0';
+
+begin
+    process(clk, reset)
+    begin
+        if reset = '1' then
+            counter_value <= "00000000";
+                flag <= '0';
+        elsif rising_edge(clk) then
+            clk_counter<=clk_counter+'1';
+          if clk_counter = target_count then
+                   if (ir_sensor = '1' and  flag ='0') then
+                   flag<='1';
+            end if;
+            if (ir_sensor = '0' and flag ='1') then
+                    if counter_value < 15 then
+                counter_value <= counter_value + 1;
+                     end if;
+                flag<='0';
+            end if;
+				
+                clk_counter <= (others => '0');
+				if (ir_sensor2 = '1' and  flag2 ='0') then
+                   flag2<='1';
+            end if;
+            if (ir_sensor2 = '0' and flag2 ='1') then
+                    if counter_value >0 then
+                counter_value <= counter_value - 1;
+              end if;
+                flag2<='0';
+            end if;
+					 
+				
+            end if;
+        end if;
+     end process;
+	 sum <= counter_value + "00000110" WHEN (counter_value(3 downto 0) > 9) ELSE "00000000" + counter_value;
+    Hex1(0) <= NOT (sum(3) OR sum(1) OR (sum(0) XNOR sum(2)));
+    Hex1(1) <= NOT (NOT sum(2) OR (sum(1) XNOR sum(0)));
+    Hex1(2) <= NOT (sum(0) OR NOT sum(1) OR sum(2));
+    Hex1(3) <= NOT (sum(3) OR (sum(1) AND NOT sum(0)) OR (NOT sum(2) AND sum(1)) OR (sum(2) AND NOT sum(1) AND sum(0)) OR (NOT sum(2) AND NOT sum(0)));
+    Hex1(4) <= NOT ((NOT sum(2) AND NOT sum(0)) OR (sum(1) AND NOT sum(0)));
+    Hex1(5) <= NOT (sum(3) OR (sum(2) AND NOT sum(0)) OR (sum(2) AND NOT sum(1)) OR (NOT sum(1) AND NOT sum(0)));
+    Hex1(6) <= NOT (sum(3) OR (sum(2) AND NOT sum(0)) OR (sum(2) XOR sum(1)));
+    Hex1(7) <= '1';
+    Hex2(0) <= NOT (sum(7) OR sum(5) OR (sum(4) XNOR sum(6)));
+	 Hex2(1) <= NOT (NOT sum(6) OR (sum(5) XNOR sum(4)));
+	 Hex2(2) <= NOT (sum(4) OR NOT sum(5) OR sum(6));
+	 Hex2(3) <= NOT (sum(7) OR (sum(5) AND NOT sum(4)) OR (NOT sum(6) AND sum(5)) OR (sum(6) AND NOT sum(5) AND sum(4)) OR (NOT sum(6) AND NOT sum(4)));
+	 Hex2(4) <= NOT ((NOT sum(6) AND NOT sum(4)) OR (sum(5) AND NOT sum(4)));
+	 Hex2(5) <= NOT (sum(7) OR (sum(6) AND NOT sum(4)) OR (sum(6) AND NOT sum(5)) OR (NOT sum(5) AND NOT sum(4)));
+	 Hex2(6) <= NOT (sum(7) OR (sum(6) AND NOT sum(4)) OR (sum(6) XOR sum(5)));
+	 Hex2(7) <= '1';
+
+
+end Behavioral;
